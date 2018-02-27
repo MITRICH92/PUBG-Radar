@@ -20,7 +20,7 @@ NUMPAD_3 -> Filter Level 2
 
 NUMPAD_4 -> Filter Scopes
 
-NUMPAD_5 -> filter Heals
+NUMPAD_5 -> filter Meds
 
 **Zooms:**
 
