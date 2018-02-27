@@ -11,6 +11,7 @@ Using [maven](https://maven.apache.org/)
 # Key Kinds
 
 **Item Filter:**
+
 NUMPAD_1 -> Filter Weapon
 
 NUMPAD_2 -> Filter Attachments
@@ -22,6 +23,7 @@ NUMPAD_4 -> Filter Scopes
 NUMPAD_5 -> filter Heals
 
 **Zooms:**
+
 NUMPAD_7 -> Scouting
 
 NUMPAD_8 -> Scout/Loot
