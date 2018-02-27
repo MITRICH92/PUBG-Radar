@@ -153,6 +153,8 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
     private var filterAttach = -1
     private var filterLvl2 = -1
     private var filterScope = -1
+	private var filterHeals = -1
+	private var HealsToFilter = arrayListOf("")
     private var ScopesToFilter = arrayListOf("")
     private var WeaponsToFilter = arrayListOf("")
     private var AttachToFilter = arrayListOf("")
@@ -204,6 +206,7 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
             NUMPAD_2 -> filterAttach = filterAttach * -1
             NUMPAD_3 -> filterLvl2 = filterLvl2 * -1
             NUMPAD_4 -> filterScope = filterScope * -1
+			NUMPAD_5 -> filterHeals = filterHeals * -1
             NUMPAD_7 -> camera.zoom = 1 / 8f
             NUMPAD_8 -> camera.zoom = 1 / 12f
             NUMPAD_9 -> camera.zoom = 1 / 24f
@@ -432,7 +435,6 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
 
             // ITEM ESP FILTER PANEL
             spriteBatch.draw(hubpanelblank, 30f, windowHeight - 60f)
-            spriteBatch.draw(hubpanelblank, 130f, windowHeight - 60f)
 
             if (filterWeapon == 1)
                 espFont.draw(spriteBatch, "WEAPON", 37f, windowHeight - 25f)
@@ -453,11 +455,16 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
                 espFont.draw(spriteBatch, "SCOPE", 92f, windowHeight - 42f)
             else
                 espFontShadow.draw(spriteBatch, "SCOPE", 92f, windowHeight - 42f)
+				
+            if (filterHeals == 1)
+                espFont.draw(spriteBatch, "HEALS", 138f, windowHeight - 25f)
+            else
+                espFontShadow.draw(spriteBatch, "HEALS", 138f, windowHeight - 25f)
 
             if (drawcompass == 1)
-                espFont.draw(spriteBatch, "Compass", 138f, windowHeight - 42f)
+                espFont.draw(spriteBatch, "COMPASS", 138f, windowHeight - 42f)
             else
-                espFontShadow.draw(spriteBatch, "Compass", 138f, windowHeight - 42f)
+                espFontShadow.draw(spriteBatch, "COMPASS", 138f, windowHeight - 42f)
 
             val time = (pinLocation.cpy().sub(selfX, selfY).len() / runSpeed).toInt()
             val (x, y) = pinLocation.mapToWindow()
@@ -472,6 +479,12 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
         } else {
             arrayListOf("red-dot", "2x", "8x", "4x", "holo", "DotSight")
         }
+		
+        HealsToFilter = if (filterHeals != 1) {
+            arrayListOf("")
+        } else {
+            arrayListOf("FirstAid", "MedKit", "Drink", "Pain")
+        }
 
         AttachToFilter = if (filterAttach != 1) {
             arrayListOf("")
@@ -483,7 +496,7 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
         WeaponsToFilter = if (filterWeapon != 1) {
             arrayListOf("")
         } else {
-            arrayListOf("M4", "98k", "Scar", "Ak", "Sks", "Grenade", "Mini", "DP28", "Ump", "Vector", "Pan")
+            arrayListOf("M16", "M4", "98k", "Scar", "Ak", "Sks", "Mini", "DP28", "Ump", "Vector", "Pan")
         }
 
 
@@ -508,24 +521,26 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
                         items.forEach {
                             if (it !in WeaponsToFilter) {
                                 if (it !in ScopesToFilter) {
-                                    if (it !in AttachToFilter) {
-                                        if (it !in Level2Filter) {
-                                            if (
-                                                    iconScale > 8 &&
-                                                    sx > 0 && sx < windowWidth &&
-                                                    syFix > 0 && syFix < windowHeight
-                                            ) {
-                                                iconImages.setIcon(it)
-                                                draw(
-                                                        iconImages.icon,
-                                                        sx - iconScale / 2, syFix + iconScale / 2, iconScale, iconScale
-                                                )
-                                            } else {
-                                                // itemFont.draw(spriteBatch, it, sx, windowHeight - sy - yOffset)
-                                            }
-                                            // yOffset = yOffset + 2
-                                        }
-                                    }
+									if (it !in HealsToFilter) {
+										if (it !in AttachToFilter) {
+											if (it !in Level2Filter) {
+												if (
+														iconScale > 8 &&
+														sx > 0 && sx < windowWidth &&
+														syFix > 0 && syFix < windowHeight
+												) {
+													iconImages.setIcon(it)
+													draw(
+															iconImages.icon,
+															sx - iconScale / 2, syFix + iconScale / 2, iconScale, iconScale
+													)
+												} else {
+													// itemFont.draw(spriteBatch, it, sx, windowHeight - sy - yOffset)
+												}
+												// yOffset = yOffset + 2
+											}
+										}
+									}	
                                 }
                             }
                         }
