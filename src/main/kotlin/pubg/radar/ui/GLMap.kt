@@ -153,8 +153,8 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
     private var filterAttach = -1
     private var filterLvl2 = -1
     private var filterScope = -1
-	private var filterHeals = -1
-	private var HealsToFilter = arrayListOf("")
+	private var filterMeds = -1
+	private var MedsToFilter = arrayListOf("")
     private var ScopesToFilter = arrayListOf("")
     private var WeaponsToFilter = arrayListOf("")
     private var AttachToFilter = arrayListOf("")
@@ -206,7 +206,7 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
             NUMPAD_2 -> filterAttach = filterAttach * -1
             NUMPAD_3 -> filterLvl2 = filterLvl2 * -1
             NUMPAD_4 -> filterScope = filterScope * -1
-			NUMPAD_5 -> filterHeals = filterHeals * -1
+			NUMPAD_5 -> filterMeds = filterMeds * -1
             NUMPAD_7 -> camera.zoom = 1 / 8f
             NUMPAD_8 -> camera.zoom = 1 / 12f
             NUMPAD_9 -> camera.zoom = 1 / 24f
@@ -456,10 +456,10 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
             else
                 espFontShadow.draw(spriteBatch, "SCOPE", 92f, windowHeight - 42f)
 				
-            if (filterHeals == 1)
-                espFont.draw(spriteBatch, "HEALS", 138f, windowHeight - 25f)
+            if (filterMeds == 1)
+                espFont.draw(spriteBatch, "MEDS", 138f, windowHeight - 25f)
             else
-                espFontShadow.draw(spriteBatch, "HEALS", 138f, windowHeight - 25f)
+                espFontShadow.draw(spriteBatch, "MEDS", 138f, windowHeight - 25f)
 
             if (drawcompass == 1)
                 espFont.draw(spriteBatch, "COMPASS", 138f, windowHeight - 42f)
@@ -480,7 +480,7 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
             arrayListOf("red-dot", "2x", "8x", "4x", "holo", "DotSight")
         }
 		
-        HealsToFilter = if (filterHeals != 1) {
+        MedsToFilter = if (filterMeds != 1) {
             arrayListOf("")
         } else {
             arrayListOf("FirstAid", "MedKit", "Drink", "Pain")
@@ -521,7 +521,7 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
                         items.forEach {
                             if (it !in WeaponsToFilter) {
                                 if (it !in ScopesToFilter) {
-									if (it !in HealsToFilter) {
+									if (it !in MedsToFilter) {
 										if (it !in AttachToFilter) {
 											if (it !in Level2Filter) {
 												if (
